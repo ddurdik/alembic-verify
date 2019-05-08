@@ -5,6 +5,7 @@ from mock import MagicMock, Mock, patch, call
 from alembicverify.util import (
     _get_revision,
     get_current_revision,
+    get_current_revisions,
     get_head_revision,
     make_alembic_config,
     prepare_schema_from_migrations,
@@ -102,6 +103,15 @@ def test_get_current_revision(_get_revision_mock):
 
     assert _get_revision_mock.return_value == result
     _get_revision_mock.assert_called_once_with(config, engine, script)
+
+
+def test_get_current_revisions(_get_revision_mock):
+    config, engine, script = Mock(), Mock(), Mock()
+
+    result = get_current_revisions(config, engine, script)
+
+    assert _get_revision_mock.return_value == result
+    _get_revision_mock.assert_called_once_with(config, engine, script, handle_branching_migrations=False)
 
 
 def test_get_head_revision(_get_revision_mock):
